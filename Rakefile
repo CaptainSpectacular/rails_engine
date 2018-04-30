@@ -8,8 +8,13 @@ require_relative 'config/application'
 desc "Importing all CSV files"
 task :import_all do
   OPTIONS = {headers: true, header_converters: :symbol}
+
   CSV.foreach('db/data/items.csv', OPTIONS) do |row|
     Item.create(row.to_h)
+  end
+
+  CSV.foreach('db/data/invoices.csv', OPTIONS) do |row|
+    Invoice.create(row.to_h)
   end
 end
 
