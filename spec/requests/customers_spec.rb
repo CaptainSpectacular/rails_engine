@@ -54,4 +54,14 @@ describe 'endpoints' do
     expect(anticipated.first).to eq(e1)
     expect(anticipated.last).to eq(e2)
   end
+
+  it 'has random' do
+    c1, c2 = create_list(:customer, 2)
+    get '/api/v1/customers/random'
+    
+    expected = [JSON.parse(c1.to_json), JSON.parse(c2.to_json)]
+    anticipated = JSON.parse(response.body)
+
+    expect(anticipated.first).to be_in(expected)
+  end
 end
