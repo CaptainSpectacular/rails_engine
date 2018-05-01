@@ -18,7 +18,7 @@ describe 'endpoints' do
     expect(JSON.parse(response.body)).to eq(JSON.parse(merchant.to_json))
   end
 
-  it 'has find' do 
+  it 'has find' do
     merchant = create(:merchant)
     get '/api/v1/merchants/find?id=1'
 
@@ -35,11 +35,22 @@ describe 'endpoints' do
 
   it 'can request the items from a merchant' do
     merchant = create(:merchant)
-    id = merchant.id
     item_1 = merchant.items.create(name: "Guitar", description: "Really cool guitar", unit_price: 10000)
     item_2 = merchant.items.create(name: "Drums", description: "Really cool drums", unit_price: 20000)
 
-    get "/api/v1/merchants/#{id}/items"
+    get "/api/v1/merchants/#{merchant.id}/items"
+
+    searched_items = JSON.parse(response.body)
+
+    expect(response).to be_success
+    expect(searched_items.count).to eq(2)
+  end
+
+  it 'can request the invoices from a merchant' do
+    merchant = create(:merchant)
+    invoice_1 = merchant.invoices.create(status: "shipped")
+    invoice_2 = merchant.invoices.create(status: "shipped")
+    get "/api/v1/merchants/#{merchant.id}/invoices"
 
     searched_items = JSON.parse(response.body)
 
