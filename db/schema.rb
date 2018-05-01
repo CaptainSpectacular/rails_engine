@@ -49,6 +49,15 @@ ActiveRecord::Schema.define(version: 20180501183154) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.integer "invoice_id"
+    t.string "credit_card_number"
+    t.datetime "credit_card_expiration_date"
+    t.string "result"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoice_items", "items"
 end
