@@ -10,6 +10,7 @@ class Api::V1::Invoices::FindController < ApplicationController
     end
   end
 
+
   def show
     if params[:id]
       render json: Invoice.find(params[:id])

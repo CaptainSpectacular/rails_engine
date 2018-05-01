@@ -109,4 +109,14 @@ describe 'Invoices API' do
     expect(searched_invoices[1]["updated_at"].to_datetime).to eq("2018-04-30 23:12:54")
     expect(searched_invoices[2]["updated_at"].to_datetime).to eq("2018-04-30 23:12:54")
   end
+  it 'can find a random invoice' do
+    list = create_list(:invoice, 3)
+
+    get "/api/v1/invoices/random"
+
+    searched_invoices = JSON.parse(response.body)
+
+    expect(response).to be_success
+    expect(searched_invoices.count).to eq(6)
+  end
 end
