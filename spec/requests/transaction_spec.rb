@@ -90,7 +90,7 @@ describe 'endpoints' do
     get "/api/v1/transactions/find_all?updated_at=#{t1.updated_at}"
     
     expected = t1.id 
-    anticipated = JSON.parse(response.body)['id']
+    anticipated = JSON.parse(response.body).first['id']
 
     expect(response).to be_success
     expect(anticipated).to eq(expected)
