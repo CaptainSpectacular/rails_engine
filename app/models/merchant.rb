@@ -1,5 +1,6 @@
 class Merchant < ApplicationRecord
   validates :name, presence: true
+  has_many :items
 
   def self.random
     order('random()').limit(1)

@@ -3,6 +3,6 @@ FactoryBot.define do
     name "Guitar"
     description "Super great guitar"
     unit_price "100.99"
-    merchant_id 1
+    merchant
   end
 end
