@@ -17,4 +17,13 @@ describe 'endpoints' do
     expect(response).to be_success
     expect(JSON.parse(response.body)).to eq(JSON.parse(merchant.to_json))
   end
+
+  it 'has find' do 
+    merchant = create(:merchant)
+    get '/api/v1/merchants/find?id=1'
+
+    expect(response).to be_success
+    expect(JSON.parse(response.body)).to eq(JSON.parse(merchant.to_json
+))
+  end
 end
