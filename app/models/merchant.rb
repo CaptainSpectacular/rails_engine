@@ -1,13 +1,14 @@
 class Merchant < ApplicationRecord
   validates :name, presence: true
   has_many :items
+  has_many :invoices
 
   def self.random
     order('random()').limit(1)
   end
 
   def self.search(params)
-    case 
+    case
     when params[:id]         then Merchant.find(params[:id])
     when params[:name]       then Merchant.find_by(name: params[:name])
     when params[:created_at] then Merchant.find_by(created_at: params[:created_at])

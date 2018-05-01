@@ -9,25 +9,29 @@ desc "Importing all CSV files"
 task :import_all do
   OPTIONS = {headers: true, header_converters: :symbol}
 
-  CSV.foreach('db/data/items.csv', OPTIONS) do |row|
-    Item.create(row.to_h)
+  CSV.foreach('db/data/merchants.csv', OPTIONS) do |row|
+    Merchant.create(row.to_h)
   end
 
   CSV.foreach('db/data/invoices.csv', OPTIONS) do |row|
     Invoice.create(row.to_h)
   end
 
-  CSV.foreach('db/data/merchants.csv', OPTIONS) do |row|
-    Merchant.create(row.to_h)
+  CSV.foreach('db/data/items.csv', OPTIONS) do |row|
+    Item.create(row.to_h)
   end
 
   CSV.foreach('db/data/invoice_items.csv', OPTIONS) do |row|
     InvoiceItem.create(row.to_h)
   end
+<<<<<<< HEAD
   
   CSV.foreach('db/data/transactions.csv', OPTIONS) do |row|
     Transaction.create(row.to_h)
   end
+=======
+
+>>>>>>> second relationship for merchant
 end
 
 Rails.application.load_tasks
