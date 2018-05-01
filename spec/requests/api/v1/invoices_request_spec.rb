@@ -21,7 +21,7 @@ describe 'Invoices API' do
     new_invoice = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(invoice["id"]).to eq(id)
+    expect(new_invoice["id"]).to eq(id)
   end
   it 'can get one invoice by finding id' do
     invoice = create(:invoice)
