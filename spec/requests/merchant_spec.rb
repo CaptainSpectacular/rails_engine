@@ -31,5 +31,6 @@ describe 'endpoints' do
     get '/api/v1/merchants/random'
 
     expect(response).to be_success
+    expect(JSON.parse(response.body)).to eq(JSON.parse(merchant.to_json))
   end
 end
