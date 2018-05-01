@@ -16,6 +16,10 @@ task :import_all do
   CSV.foreach('db/data/invoices.csv', OPTIONS) do |row|
     Invoice.create(row.to_h)
   end
+
+  CSV.foreach('db/data/merchants.csv', OPTIONS) do |row|
+    Merchant.create(row.to_h)
+  end
 end
 
 Rails.application.load_tasks
