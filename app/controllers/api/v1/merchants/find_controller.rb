@@ -3,6 +3,8 @@ class Api::V1::Merchants::FindController < ApplicationController
     case 
     when params[:id]   then render json: Merchant.find(params[:id])
     when params[:name] then render json: Merchant.find_by(name: params[:name])
+    when params[:created_at] then render json: Merchant.find_by(created_at: params[:created_at])
+    when params[:updated_at] then render json: Merchant.find_by(updated_at: params[:updated_at])
     end
   end
 

@@ -23,7 +23,13 @@ describe 'endpoints' do
     get '/api/v1/merchants/find?id=1'
 
     expect(response).to be_success
-    expect(JSON.parse(response.body)).to eq(JSON.parse(merchant.to_json
-))
+    expect(JSON.parse(response.body)).to eq(JSON.parse(merchant.to_json))
+  end
+
+  it 'has random' do
+    m1, m2 = create_list(:merchant, 2)
+    get '/api/v1/merchants/random'
+
+    expect(response).to be_success
   end
 end
