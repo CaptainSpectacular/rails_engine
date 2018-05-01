@@ -111,4 +111,13 @@ describe 'Item API' do
     expect(response).to be_success
     expect(searched_item.count).to eq(7)
   end
+  describe 'class methods' do
+    xit 'can find the most revenue' do
+      item_1 = create(:item)
+      item_2 = create(:item_2)
+
+      expect(Item.most_revenue(1)).to eq(item_2)
+      expect(Item.most_revenue(2)).to eq([item_2, item])
+    end
+  end
 end
