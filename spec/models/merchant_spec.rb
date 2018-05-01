@@ -20,4 +20,7 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.random.first).to be_in([m1, m2, m3])
     end
   end
+  describe 'relationships' do
+    it { should have_many(:items) }
+  end
 end
