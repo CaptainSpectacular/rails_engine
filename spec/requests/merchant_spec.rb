@@ -18,7 +18,7 @@ describe 'endpoints' do
     expect(JSON.parse(response.body)).to eq(JSON.parse(merchant.to_json))
   end
 
-  it 'has find' do
+  it 'has find' do 
     merchant = create(:merchant)
     get '/api/v1/merchants/find?id=1'
 
@@ -32,6 +32,7 @@ describe 'endpoints' do
 
     expect(response).to be_success
   end
+
   it 'can request the items from a merchant' do
     merchant = create(:merchant)
     id = merchant.id
@@ -40,7 +41,6 @@ describe 'endpoints' do
 
     get "/api/v1/merchants/#{id}/items"
 
-    binding.pry
     searched_items = JSON.parse(response.body)
 
     expect(response).to be_success
