@@ -24,14 +24,10 @@ task :import_all do
   CSV.foreach('db/data/invoice_items.csv', OPTIONS) do |row|
     InvoiceItem.create(row.to_h)
   end
-<<<<<<< HEAD
-  
+
   CSV.foreach('db/data/transactions.csv', OPTIONS) do |row|
     Transaction.create(row.to_h)
   end
-=======
-
->>>>>>> second relationship for merchant
 end
 
 Rails.application.load_tasks
