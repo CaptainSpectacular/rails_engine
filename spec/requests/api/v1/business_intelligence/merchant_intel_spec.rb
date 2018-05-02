@@ -9,5 +9,8 @@ describe "Merchant Intel" do
     x = 5
     get "/api/v1/items/most_revenue?quantity=#{x}"
   end
-
+  it "can get the total revenue for a specific date" do
+    x = "2018-04-30"
+    get "/api/v1/merchants/revenue?date=#{x}"
+  end
 end
