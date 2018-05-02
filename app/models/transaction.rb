@@ -2,7 +2,7 @@ class Transaction < ApplicationRecord
   validates_presence_of :invoice_id,
                        :credit_card_number,
                        :result
-  belongs_to :invoice
+  belongs_to :invoice, optional: true
  
   def self.search(params)
     case 
