@@ -56,14 +56,15 @@ describe 'Item API' do
   end
   it 'can find by unit price' do
     item = create(:item)
-    unit_price = item.unit_price.to_s
+    unit_price = item.unit_price
 
     get "/api/v1/items/find?unit_price=#{unit_price}"
 
     searched_item = JSON.parse(response.body)
 
+    serialized_unit_price = (item.unit_price / 100).to_s
     expect(response).to be_success
-    expect(searched_item["unit_price"]).to eq(unit_price)
+    expect(searched_item["unit_price"]).to eq(serialized_unit_price)
   end
   it 'can find all by name' do
     list = create_list(:item, 3)
@@ -91,15 +92,18 @@ describe 'Item API' do
   end
   it 'can find all by unit price' do
     list = create_list(:item, 3)
-    unit_price = list[0][:unit_price].to_s
+    unit_price = list[0][:unit_price]
+    item = list[0]
 
     get "/api/v1/items/find_all?unit_price=#{unit_price}"
 
     searched_items = JSON.parse(response.body)
 
+    serialized_unit_price = (item.unit_price / 100).to_s
+
     expect(response).to be_success
     expect(searched_items.count).to eq(3)
-    expect(searched_items[0]["unit_price"]).to eq(unit_price)
+    expect(searched_items[0]["unit_price"]).to eq(serialized_unit_price)
   end
   it 'can find an item by random' do
     list = create_list(:item, 3)
@@ -109,7 +113,7 @@ describe 'Item API' do
     searched_item = JSON.parse(response.body)
 
     expect(response).to be_success
-    expect(searched_item.count).to eq(7)
+    expect(searched_item.count).to eq(5)
   end
   describe 'class methods' do
     xit 'can find the most revenue' do

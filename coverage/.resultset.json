@@ -1039,17 +1039,6 @@
         null,
         1,
         1,
-        null,
-        1,
-        1,
-        1,
-        null,
-        1,
-        null,
-        1,
-        null,
-        1,
-        1,
         1,
         null,
         1,
@@ -1066,6 +1055,21 @@
         null,
         1,
         1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        null,
+        1,
+        1,
+        1,
+        null,
+        1,
+        1,
+        1,
+        1,
+        null,
         1,
         null,
         1,
@@ -1534,6 +1538,15 @@
         null,
         null
       ],
+      "/Users/alexcutschall/turing/3module/projects/rails_engine/app/serializers/item_serializer.rb": [
+        1,
+        1,
+        null,
+        1,
+        20,
+        null,
+        null
+      ],
       "/Users/alexcutschall/turing/3module/projects/rails_engine/app/controllers/api/v1/items/find_controller.rb": [
         1,
         1,
@@ -1584,6 +1597,6 @@
         null
       ]
     },
-    "timestamp": 1525269176
+    "timestamp": 1525270195
   }
 }
