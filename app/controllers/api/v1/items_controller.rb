@@ -1,6 +1,9 @@
 class Api::V1::ItemsController < ApplicationController
   def index
-    render json: Item.all
+    case params[:invoice_id].nil?
+    when false then render json: Invoice.find(params[:invoice_id]).items 
+    else render json: Item.all
+    end
   end
 
   def show
