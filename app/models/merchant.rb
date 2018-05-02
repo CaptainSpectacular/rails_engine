@@ -28,8 +28,10 @@ class Merchant < ApplicationRecord
     end
   end
 
-  def self.best_customer
-    customers.select("customers.*, count(transactions.id) AS transaction_count")
+  def best_customer
+    Merchant.find(params[:id])
+    .customers
+    .select("customers.*, count(transactions.id) AS transaction_count")
     .joins(:invoices, :transactions)
     .where(transactions: {result: "success"})
     .group(:id)
