@@ -96,7 +96,7 @@ describe 'Item API' do
     item = list[0]
 
     get "/api/v1/items/find_all?unit_price=#{unit_price}"
- 
+
     searched_items = JSON.parse(response.body)
 
     serialized_unit_price = (item.unit_price / 100).to_s
