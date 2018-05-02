@@ -48,12 +48,13 @@ describe 'endpoints' do
 
   it 'can request the invoices from a merchant' do
     merchant = create(:merchant)
-    invoice_1 = merchant.invoices.create(status: "shipped")
-    invoice_2 = merchant.invoices.create(status: "shipped")
+    customer = create(:customer)
+    invoice_1 = merchant.invoices.create(status: "shipped", customer_id: customer.id)
+    invoice_2 = merchant.invoices.create(status: "shipped", customer_id: customer.id)
     get "/api/v1/merchants/#{merchant.id}/invoices"
 
     searched_items = JSON.parse(response.body)
-
+    
     expect(response).to be_success
     expect(searched_items.count).to eq(2)
   end
