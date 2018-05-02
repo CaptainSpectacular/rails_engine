@@ -1,3 +1,7 @@
 class ItemSerializer < ActiveModel::Serializer
-  attributes :description, :id, :merchant_id, :name, :unit_price
+  attributes :id, :name, :description, :unit_price, :merchant_id
+
+  def unit_price
+    (object.unit_price / 100).to_s
+  end
 end
