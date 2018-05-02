@@ -3,7 +3,7 @@ class Transaction < ApplicationRecord
                        :credit_card_number,
                        :result
   belongs_to :invoice
-
+ 
   def self.search(params)
     case
     when params[:id]         then find(params[:id])
