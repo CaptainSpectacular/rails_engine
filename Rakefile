@@ -9,6 +9,10 @@ desc "Importing all CSV files"
 task :import_all do
   OPTIONS = {headers: true, header_converters: :symbol}
 
+  CSV.foreach('db/data/customers.csv', OPTIONS) do |row|
+    Customer.create(row.to_h)
+  end
+
   CSV.foreach('db/data/merchants.csv', OPTIONS) do |row|
     Merchant.create(row.to_h)
   end
@@ -27,10 +31,6 @@ task :import_all do
 
   CSV.foreach('db/data/transactions.csv', OPTIONS) do |row|
     Transaction.create(row.to_h)
-  end
-
-  CSV.foreach('db/data/customers.csv', OPTIONS) do |row|
-    Customer.create(row.to_h)
   end
 end
 
