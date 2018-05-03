@@ -1,8 +1,17 @@
 class Customer < ApplicationRecord
   has_many :invoices
   has_many :transactions, through: :invoices
-
+  has_many :merchants, through: :invoices
   def self.random
     order('random()').limit(1)
+  end
+
+  def favorite_merchant
+    merchants.joins(:invoices, :transactions)
+             .where(transactions: {result: 'success'})
+             .group(:id)
+             .order('COUNT(transactions.id) DESC')
+             .limit(1)  
+             .first
   end
 end
