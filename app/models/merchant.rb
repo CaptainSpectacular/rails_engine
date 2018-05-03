@@ -48,6 +48,18 @@ class Merchant < ApplicationRecord
     .limit(number_of_merchants)
   end
 
+  def revenue(date=nil)
+    if date 
+       invoices.joins(:invoice_items, :transactions)
+                .where(transactions: {result: 'success'}, invoice_items: { created_at: date })
+                .sum('invoice_items.unit_price * invoice_items.quantity')
+    else
+      invoices.joins(:invoice_items, :transactions)
+              .where(transactions: {result: 'success'})
+              .sum('invoice_items.unit_price * invoice_items.quantity')
+    end
+  end
+
   def self.total_revenue_for_date
     select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .joins(:invoices, :transactions, :invoice_items)
