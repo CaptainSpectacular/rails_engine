@@ -28,6 +28,7 @@ describe "Merchant Intel" do
 
     expect(best_customer[0]["id"]).to eq(customer_1.id)
   end
+
   it "can return the top number of merchants depending on revenue" do
     merchant_1 = create(:merchant)
     merchant_2 = create(:merchant)
@@ -65,8 +66,35 @@ describe "Merchant Intel" do
     expect(top_merchants[0]["id"]).to eq(merchant_1.id)
     expect(top_merchants[1]["id"]).to eq(merchant_2.id)
   end
+
   it "can get the total revenue for a specific date" do
     x = "2018-04-30 23:12:53"
     get "/api/v1/merchants/revenue?date=#{x}"
+  end
+
+  it 'can get one merchant revenue' do
+    merchant = create(:merchant)
+    merchant.invoices << create(:invoice)
+    merchant.invoices.first.transactions << create(:transaction, result: 'success')
+    merchant.invoices.first.invoice_items << create(:invoice_item, unit_price: 100)
+   
+    get "/api/v1/merchants/#{merchant.id}/revenue"
+
+    anticipated = JSON.parse(response.body)
+
+    expect(anticipated['revenue']).to eq('%.2f' % (merchant.revenue / 100))
+  end
+
+  it 'can get one merchant revenue by date' do
+    merchant = create(:merchant)
+    merchant.invoices << create(:invoice)
+    merchant.invoices.first.transactions << create(:transaction, result: 'success')
+    merchant.invoices.first.invoice_items << create(:invoice_item)
+   
+    get "/api/v1/merchants/#{merchant.id}/revenue?date=#{merchant.created_at}"
+
+    anticipated = JSON.parse(response.body)['revenue']
+
+    expect(anticipated.to_i).to eq( merchant.revenue(merchant.created_at))
   end
 end
