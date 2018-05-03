@@ -66,7 +66,7 @@ describe "Merchant Intel" do
     expect(top_merchants[1]["id"]).to eq(merchant_2.id)
   end
   it "can get the total revenue for a specific date" do
-    x = "2018-04-30"
+    x = "2018-04-30 23:12:53"
     get "/api/v1/merchants/revenue?date=#{x}"
   end
 end

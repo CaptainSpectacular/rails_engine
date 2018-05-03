@@ -104,6 +104,7 @@ describe 'Invoice Item API' do
 
     searched_invoice_items = JSON.parse(response.body)
 
+    binding.pry
     expect(searched_invoice_items[0]["unit_price"]).to eq(unit_price.to_s)
     expect(searched_invoice_items[1]["unit_price"]).to eq(unit_price.to_s)
     expect(searched_invoice_items[2]["unit_price"]).to eq(unit_price.to_s)
