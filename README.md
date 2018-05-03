@@ -1,24 +1,15 @@
-# README
+Rails Engine
+Created by: Clee Pollock and Alex Cutschall
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Hello! Thanks for stopping by our project. Once you have the project, you'll be able run business analyst throughout the system to find out a variety of information. Have fun!
 
-Things you may want to cover:
+1) Clone down the project
+2) run bundle install
 
-* Ruby version
+Here's a look at the database
 
-* System dependencies
+![A look at the Database](/users/alexcutschall/desktop/Screen Shot 2018-05-02 at 6.12.37 AM.png.png)
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+3) run rails db:create to setup your database
+4) run rails db:migrate to pull in the database structure
+5) run rake import_all to add the resources to your tables
