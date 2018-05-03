@@ -52,5 +52,6 @@ class Merchant < ApplicationRecord
     select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .joins(:invoices, :transactions, :invoice_items)
     .where(transactions: {result: "success"})
+    # .where("invoices.created_at LIKE ?", "%2018-04-30%")
   end
 end
