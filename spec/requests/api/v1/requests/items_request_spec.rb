@@ -54,18 +54,6 @@ describe 'Item API' do
     expect(response).to be_success
     expect(searched_item["description"]).to eq(description)
   end
-  it 'can find by unit price' do
-    item = create(:item)
-    unit_price = item.unit_price
-
-    get "/api/v1/items/find?unit_price=#{unit_price}"
-
-    searched_item = JSON.parse(response.body)
-
-    expect(response).to be_success
-
-    expect(searched_item["unit_price"]).to eq(item.unit_price.to_s)
-  end
   it 'can find all by name' do
     list = create_list(:item, 3)
     name = list[0][:name]
@@ -89,19 +77,6 @@ describe 'Item API' do
     expect(response).to be_success
     expect(searched_items.count).to eq(3)
     expect(searched_items[0]["description"]).to eq(description)
-  end
-  it 'can find all by unit price' do
-    list = create_list(:item, 3)
-    unit_price = list[0][:unit_price]
-    item = list[0]
-
-    get "/api/v1/items/find_all?unit_price=#{unit_price}"
-
-    searched_items = JSON.parse(response.body)
-
-    expect(response).to be_success
-    expect(searched_items.count).to eq(3)
-    expect(searched_items[0]["unit_price"]).to eq(item.unit_price.to_s)
   end
   it 'can find an item by random' do
     list = create_list(:item, 3)
