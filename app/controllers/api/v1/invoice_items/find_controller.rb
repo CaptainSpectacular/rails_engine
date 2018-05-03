@@ -1,10 +1,18 @@
 class Api::V1::InvoiceItems::FindController < ApplicationController
   def index
-    render json: InvoiceItem.where(invoice_item_params)
+    if params[:unit_price]
+       render json: InvoiceItem.where(unit_price: (params[:unit_price].delete('.')))
+    else
+      render json: InvoiceItem.where(invoice_item_params)
+    end
   end
 
   def show
-    render json: InvoiceItem.find_by(invoice_item_params)
+    if params[:unit_price]
+       render json: InvoiceItem.find_by(unit_price: (params[:unit_price].delete('.')))
+    else
+      render json: InvoiceItem.find_by(invoice_item_params)
+    end
   end
 
   private

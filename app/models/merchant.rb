@@ -28,9 +28,8 @@ class Merchant < ApplicationRecord
     end
   end
 
-  def best_customer
-    Merchant.find(params[:id])
-    .customers
+  def favorite_customer
+    customers
     .select("customers.*, count(transactions.id) AS transaction_count")
     .joins(:invoices, :transactions)
     .where(transactions: {result: "success"})
@@ -60,10 +59,10 @@ class Merchant < ApplicationRecord
     end
   end
 
-  def self.total_revenue_for_date
+  def self.total_revenue_for_date(date)
     select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .joins(:invoices, :transactions, :invoice_items)
     .where(transactions: {result: "success"})
-    # .where("invoices.created_at LIKE ?", "%2018-04-30%")
+    .where(invoice_items: {created_at: "#{date}"})
   end
 end
