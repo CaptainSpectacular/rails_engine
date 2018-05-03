@@ -44,18 +44,6 @@ describe 'Invoice Item API' do
 
     expect(searched_invoice_item["quantity"]).to eq(invoice_item.quantity)
   end
-  it 'can search for a single invoice item from unit price' do
-    invoice_item = create(:invoice_item)
-
-    get "/api/v1/invoice_items/find?unit_price=#{invoice_item.unit_price.to_s}"
-
-    expect(response).to be_success
-
-    searched_invoice_item = JSON.parse(response.body)
-
-    expect(searched_invoice_item["unit_price"]).to eq(invoice_item.unit_price.to_s)
-  end
-
   it 'can search for a single invoice item from created at' do
     invoice_item = create(:invoice_item)
 
@@ -92,21 +80,6 @@ describe 'Invoice Item API' do
     expect(searched_invoice_items[0]["quantity"]).to eq(quantity)
     expect(searched_invoice_items[1]["quantity"]).to eq(quantity)
     expect(searched_invoice_items[2]["quantity"]).to eq(quantity)
-    expect(searched_invoice_items.count).to eq(3)
-  end
-  it 'can search for all invoice items from unit price' do
-    invoice_items = create_list(:invoice_item, 3)
-    unit_price = invoice_items[0][:unit_price]
-
-    get "/api/v1/invoice_items/find_all?unit_price=#{unit_price}"
-
-    expect(response).to be_success
-
-    searched_invoice_items = JSON.parse(response.body)
-
-    expect(searched_invoice_items[0]["unit_price"]).to eq(unit_price.to_s)
-    expect(searched_invoice_items[1]["unit_price"]).to eq(unit_price.to_s)
-    expect(searched_invoice_items[2]["unit_price"]).to eq(unit_price.to_s)
     expect(searched_invoice_items.count).to eq(3)
   end
 
