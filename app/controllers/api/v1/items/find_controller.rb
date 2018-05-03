@@ -4,7 +4,11 @@ class Api::V1::Items::FindController < ApplicationController
   end
 
   def show
-    render json: Item.find_by(item_params)
+    if params[:unit_price]
+      render json: Item.find_by(unit_price: (params[:unit_price].gsub('.','').to_i))
+    else
+      render json: Item.find_by(item_params)
+    end
   end
 
   private
