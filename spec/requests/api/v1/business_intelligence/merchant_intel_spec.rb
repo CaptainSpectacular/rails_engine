@@ -53,7 +53,7 @@ describe "Merchant Intel" do
                                                   result: "failed")
     item = create(:item)
     invoice_item_1 = invoice_1.invoice_items.create(item_id: item.id, quantity: 5, unit_price: 1000)
-    invoice_item_2 = invoice_2.invoice_items.create(item_id: item.id, quantity: 10, unit_price: 1000)
+    invoice_item_2 = invoice_2.invoice_items.create(item_id: item.id, quantity: 15, unit_price: 1000)
     invoice_item_3 = invoice_3.invoice_items.create(item_id: item.id, quantity: 5, unit_price: 1000)
 
     x = 2
@@ -63,8 +63,8 @@ describe "Merchant Intel" do
 
     top_merchants = JSON.parse(response.body)
 
-    expect(top_merchants[0]["id"]).to eq(merchant_1.id)
-    expect(top_merchants[1]["id"]).to eq(merchant_2.id)
+    expect(top_merchants[0]["id"]).to eq(merchant_2.id)
+    expect(top_merchants[1]["id"]).to eq(merchant_1.id)
   end
 
   it "can get the total revenue for a specific date" do
@@ -77,7 +77,7 @@ describe "Merchant Intel" do
     merchant.invoices << create(:invoice)
     merchant.invoices.first.transactions << create(:transaction, result: 'success')
     merchant.invoices.first.invoice_items << create(:invoice_item, unit_price: 100)
-   
+
     get "/api/v1/merchants/#{merchant.id}/revenue"
 
     anticipated = JSON.parse(response.body)
@@ -90,7 +90,7 @@ describe "Merchant Intel" do
     merchant.invoices << create(:invoice)
     merchant.invoices.first.transactions << create(:transaction, result: 'success')
     merchant.invoices.first.invoice_items << create(:invoice_item)
-   
+
     get "/api/v1/merchants/#{merchant.id}/revenue?date=#{merchant.created_at}"
 
     anticipated = JSON.parse(response.body)['revenue']
