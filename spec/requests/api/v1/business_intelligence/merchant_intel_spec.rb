@@ -133,6 +133,7 @@ describe "Merchant Intel" do
     pending_customers = JSON.parse(response.body)
 
     expect(pending_customers[0]["id"]).to eq(customer_3.id)
+<<<<<<< HEAD
   end
 
   it 'can get one merchant revenue' do
@@ -159,5 +160,7 @@ describe "Merchant Intel" do
     anticipated = JSON.parse(response.body)['revenue']
 
     expect(anticipated.to_i).to eq( merchant.revenue(merchant.created_at))
+=======
+>>>>>>> 78dd23db9939034dca3230280ee4b6df0f86be85
   end
 end
