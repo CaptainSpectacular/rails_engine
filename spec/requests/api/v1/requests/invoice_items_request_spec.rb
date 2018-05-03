@@ -55,6 +55,7 @@ describe 'Invoice Item API' do
 
     expect(searched_invoice_item["unit_price"]).to eq(invoice_item.unit_price.to_s)
   end
+
   it 'can search for a single invoice item from created at' do
     invoice_item = create(:invoice_item)
 
@@ -64,8 +65,9 @@ describe 'Invoice Item API' do
 
     searched_invoice_item = JSON.parse(response.body)
 
-    expect(searched_invoice_item["created_at"].to_datetime).to eq(invoice_item.created_at)
+    expect(searched_invoice_item["id"]).to eq(invoice_item.id)
   end
+
   it 'can search for a single invoice item from created at' do
     invoice_item = create(:invoice_item)
 
@@ -75,7 +77,7 @@ describe 'Invoice Item API' do
 
     searched_invoice_item = JSON.parse(response.body)
 
-    expect(searched_invoice_item["updated_at"].to_datetime).to eq(invoice_item.updated_at)
+    expect(searched_invoice_item["id"]).to eq(invoice_item.id)
   end
   it 'can search for all invoice items from quantity' do
     invoice_items = create_list(:invoice_item, 3)
@@ -107,36 +109,37 @@ describe 'Invoice Item API' do
     expect(searched_invoice_items[2]["unit_price"]).to eq(unit_price.to_s)
     expect(searched_invoice_items.count).to eq(3)
   end
+
   it 'can search for all invoice items from created at' do
-    invoice_items = create_list(:invoice_item, 3)
-    created_at = invoice_items[0][:created_at]
+    ii1,ii2, ii3 = create_list(:invoice_item, 3)
 
-    get "/api/v1/invoice_items/find_all?created_at=#{created_at}"
+    get "/api/v1/invoice_items/find_all?created_at=#{ii1.created_at}"
 
     expect(response).to be_success
 
     searched_invoice_items = JSON.parse(response.body)
 
-    expect(searched_invoice_items[0]["created_at"].to_datetime).to eq(created_at)
-    expect(searched_invoice_items[1]["created_at"].to_datetime).to eq(created_at)
-    expect(searched_invoice_items[2]["created_at"].to_datetime).to eq(created_at)
+    expect(searched_invoice_items[0]["id"]).to eq(ii1.id)
+    expect(searched_invoice_items[1]["id"]).to eq(ii2.id)
+    expect(searched_invoice_items[2]["id"]).to eq(ii3.id)
     expect(searched_invoice_items.count).to eq(3)
   end
+
   it 'can search for all invoice items from updated at' do
-    invoice_items = create_list(:invoice_item, 3)
-    updated_at = invoice_items[0][:updated_at]
+    ii1, ii2, ii3 = create_list(:invoice_item, 3)
 
-    get "/api/v1/invoice_items/find_all?updated_at=#{updated_at}"
+    get "/api/v1/invoice_items/find_all?updated_at=#{ii1.updated_at}"
 
     expect(response).to be_success
 
     searched_invoice_items = JSON.parse(response.body)
 
-    expect(searched_invoice_items[0]["updated_at"].to_datetime).to eq(updated_at)
-    expect(searched_invoice_items[1]["updated_at"].to_datetime).to eq(updated_at)
-    expect(searched_invoice_items[2]["updated_at"].to_datetime).to eq(updated_at)
+    expect(searched_invoice_items[0]["id"]).to eq(ii1.id)
+    expect(searched_invoice_items[1]["id"]).to eq(ii2.id)
+    expect(searched_invoice_items[2]["id"]).to eq(ii3.id)
     expect(searched_invoice_items.count).to eq(3)
   end
+
   it 'can find a random invoice item' do
     invoice_item = create(:invoice_item)
     invoice_item_2 = create(:invoice_item_2)
@@ -147,6 +150,6 @@ describe 'Invoice Item API' do
 
     searched_invoice_item = JSON.parse(response.body)
 
-    expect(searched_invoice_item.count).to eq(7)
+    expect(searched_invoice_item.count).to eq(5)
   end
 end
