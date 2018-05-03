@@ -12,4 +12,22 @@ class Item < ApplicationRecord
     .order("revenue DESC")
     .limit(number_of_entries)
   end
+
+  def best_day
+    invoices
+      .select('invoices.updated_at, SUM(invoice_items.quantity * invoice_items.unit_price) AS answer')
+      .joins(:transactions, :invoice_items)
+      .group('invoices.updated_at')
+      .where(transactions: {result: 'success'})
+      .order('answer DESC')
+      .first
+  end
+
+  def self.most_sold(limit = 5)
+    select('items.*, SUM(invoice_items.quantity) AS sold')
+      .joins(:invoice_items)
+      .group('items.id')
+      .order('sold DESC')
+      .limit(limit)
+  end
 end
