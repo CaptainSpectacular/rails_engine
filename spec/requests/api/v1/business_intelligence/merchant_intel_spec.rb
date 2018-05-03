@@ -1,13 +1,69 @@
 require 'rails_helper'
 
 describe "Merchant Intel" do
-  it "can find customers with pending invoices" do
-    #most number of successful transactions
+  it "can find the customer with most successful transaction" do
+    merchant = create(:merchant)
+    customer_1 = merchant.customers.create(first_name: "Alex", last_name: "Cutschall")
+    customer_2 = merchant.customers.create(first_name: "Clee", last_name: "Pollock")
+    invoice_1 = customer_1.invoices.create(status: "shipped", merchant_id: merchant.id)
+    invoice_2 = customer_2.invoices.create(status: "pending", merchant_id: merchant.id)
+    transaction_1 = invoice_1.transactions.create(credit_card_number: 4343434343,
+                                                  credit_card_expiration_date: "2018-05-01 08:26:26",
+                                                  result: "success")
+    transaction_2 = invoice_1.transactions.create(credit_card_number: 4343434343,
+                                                  credit_card_expiration_date: "2018-05-01 08:26:26",
+                                                  result: "success")
+    transaction_3 = invoice_2.transactions.create(credit_card_number: 4343434343,
+                                                  credit_card_expiration_date: "2018-05-01 08:26:26",
+                                                  result: "success")
+    transaction_4 = invoice_2.transactions.create(credit_card_number: 4343434343,
+                                                  credit_card_expiration_date: "2018-05-01 08:26:26",
+                                                  result: "failed")
+
     get "/api/v1/merchants/#{merchant.id}/favorite_customer"
+
+    expect(response).to be_success
+
+    best_customer = JSON.parse(response.body)
+
+    expect(best_customer[0]["id"]).to eq(customer_1.id)
   end
   it "can return the top number of merchants depending on revenue" do
-    x = 5
-    get "/api/v1/items/most_revenue?quantity=#{x}"
+    merchant_1 = create(:merchant)
+    merchant_2 = create(:merchant)
+    merchant_3 = create(:merchant)
+    customer_1 = merchant_1.customers.create(first_name: "Alex", last_name: "Cutschall")
+    customer_2 = merchant_2.customers.create(first_name: "Clee", last_name: "Pollock")
+    customer_3 = merchant_3.customers.create(first_name: "Jimmy", last_name: "Nelson")
+    invoice_1 = customer_1.invoices.create(status: "shipped", merchant_id: merchant_1.id)
+    invoice_2 = customer_2.invoices.create(status: "shipped", merchant_id: merchant_2.id)
+    invoice_3 = customer_3.invoices.create(status: "pending", merchant_id: merchant_3.id)
+    transaction_1 = invoice_1.transactions.create(credit_card_number: 4343434343,
+                                                  credit_card_expiration_date: "2018-05-01 08:26:26",
+                                                  result: "success")
+    transaction_2 = invoice_1.transactions.create(credit_card_number: 4343434343,
+                                                  credit_card_expiration_date: "2018-05-01 08:26:26",
+                                                  result: "success")
+    transaction_3 = invoice_2.transactions.create(credit_card_number: 4343434343,
+                                                  credit_card_expiration_date: "2018-05-01 08:26:26",
+                                                  result: "success")
+    transaction_4 = invoice_3.transactions.create(credit_card_number: 4343434343,
+                                                  credit_card_expiration_date: "2018-05-01 08:26:26",
+                                                  result: "failed")
+    item = create(:item)
+    invoice_item_1 = invoice_1.invoice_items.create(item_id: item.id, quantity: 5, unit_price: 1000)
+    invoice_item_2 = invoice_2.invoice_items.create(item_id: item.id, quantity: 10, unit_price: 1000)
+    invoice_item_3 = invoice_3.invoice_items.create(item_id: item.id, quantity: 5, unit_price: 1000)
+
+    x = 2
+    get "/api/v1/merchants/most_revenue?quantity=#{x}"
+
+    expect(response).to be_success
+
+    top_merchants = JSON.parse(response.body)
+
+    expect(top_merchants[0]["id"]).to eq(merchant_1.id)
+    expect(top_merchants[1]["id"]).to eq(merchant_2.id)
   end
   it "can get the total revenue for a specific date" do
     x = "2018-04-30"

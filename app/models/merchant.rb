@@ -28,9 +28,8 @@ class Merchant < ApplicationRecord
     end
   end
 
-  def best_customer
-    Merchant.find(params[:id])
-    .customers
+  def favorite_customer
+    customers
     .select("customers.*, count(transactions.id) AS transaction_count")
     .joins(:invoices, :transactions)
     .where(transactions: {result: "success"})
