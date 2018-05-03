@@ -8,6 +8,7 @@ class Api::V1::InvoiceItems::FindController < ApplicationController
   end
 
   def show
+    
     if params[:unit_price]
        render json: InvoiceItem.find_by(unit_price: (params[:unit_price].delete('.')))
     else

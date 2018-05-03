@@ -5,10 +5,4 @@ class Invoice < ApplicationRecord
   belongs_to :customer, optional: true
   belongs_to :merchant, optional: true
 
-  def processable?
-    transactions.any? do |transaction|
-      transaction[:result] == "success"
-    end
-  end
-
 end

@@ -47,7 +47,7 @@ describe 'Invoice Item API' do
   it 'can search for a single invoice item from unit price' do
     invoice_item = create(:invoice_item)
 
-    get "/api/v1/invoice_items/find?unit_price=#{invoice_item.unit_price}"
+    get "/api/v1/invoice_items/find?unit_price=#{invoice_item.unit_price.to_s}"
 
     expect(response).to be_success
 
