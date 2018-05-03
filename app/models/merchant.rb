@@ -35,20 +35,19 @@ class Merchant < ApplicationRecord
     .where(transactions: {result: "success"})
     .group(:id)
     .order("transaction_count DESC")
-    .limit(1)
+    .first
   end
 
   def self.most_revenue(number_of_merchants)
-    select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
-    .joins(:invoices, :invoice_items, :transactions)
+    joins(invoices: [:invoice_items, :transactions])
     .where(transactions: {result: "success"})
     .group(:id)
-    .order("revenue DESC")
+    .order("sum(invoice_items.quantity * invoice_items.unit_price) DESC")
     .limit(number_of_merchants)
   end
 
   def revenue(date=nil)
-    if date 
+    if date
        invoices.joins(:invoice_items, :transactions)
                 .where(transactions: {result: 'success'}, invoice_items: { created_at: date })
                 .sum('invoice_items.unit_price * invoice_items.quantity')
@@ -60,9 +59,22 @@ class Merchant < ApplicationRecord
   end
 
   def self.total_revenue_for_date(date)
-    select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
-    .joins(:invoices, :transactions, :invoice_items)
+    joins(invoices: [:invoice_items, :transactions])
     .where(transactions: {result: "success"})
-    .where(invoice_items: {created_at: "#{date}"})
+    .where("DATE(invoices.created_at) = ?", date)
+    .sum("invoice_items.quantity * invoice_items.unit_price")
+  end
+
+  def customers_with_pending_invoices
+    Customer.find_by_sql ["SELECT customers.* FROM merchants
+      JOIN invoices ON merchants.id = invoices.merchant_id
+      JOIN customers ON customers.id = invoices.customer_id
+      JOIN transactions ON transactions.invoice_id = invoices.id
+      WHERE merchants.id = #{id}
+      EXCEPT SELECT customers.* FROM merchants
+      JOIN invoices ON merchants.id = invoices.merchant_id
+      JOIN customers ON customers.id = invoices.customer_id
+      JOIN transactions ON transactions.invoice_id = invoices.id
+      WHERE merchants.id = #{id} AND transactions.result = 'success';"]
   end
 end
