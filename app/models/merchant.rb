@@ -75,6 +75,6 @@ class Merchant < ApplicationRecord
       JOIN invoices ON merchants.id = invoices.merchant_id
       JOIN customers ON customers.id = invoices.customer_id
       JOIN transactions ON transactions.invoice_id = invoices.id
-      WHERE merchants.id = #{id} AND transactions.result = 'success';"];
+      WHERE merchants.id = #{id} AND transactions.result = 'success';"]
   end
 end
