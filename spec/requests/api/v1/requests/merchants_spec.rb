@@ -6,8 +6,8 @@ describe 'endpoints' do
     get '/api/v1/merchants'
 
     expect(response).to be_success
-    expect(JSON.parse(response.body).first).to eq(JSON.parse(m1.to_json))
-    expect(JSON.parse(response.body)[1]).to eq(JSON.parse(m2.to_json))
+    expect(JSON.parse(response.body).first['id']).to eq(m1.id)
+    expect(JSON.parse(response.body).last['id']).to eq(m3.id)
   end
 
   it 'has show' do
@@ -15,7 +15,7 @@ describe 'endpoints' do
     get "/api/v1/merchants/#{merchant.id}"
 
     expect(response).to be_success
-    expect(JSON.parse(response.body)).to eq(JSON.parse(merchant.to_json))
+    expect(JSON.parse(response.body)['id']).to eq(merchant.id)
   end
 
   it 'has find' do
@@ -23,7 +23,7 @@ describe 'endpoints' do
     get '/api/v1/merchants/find?id=1'
 
     expect(response).to be_success
-    expect(JSON.parse(response.body)).to eq(JSON.parse(merchant.to_json))
+    expect(JSON.parse(response.body)['id']).to eq(merchant.id)
   end
 
   it 'has random' do
