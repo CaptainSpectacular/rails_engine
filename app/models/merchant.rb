@@ -66,9 +66,15 @@ class Merchant < ApplicationRecord
   end
 
   def customers_with_pending_invoices
-    customers
-    .joins(invoices: [:transactions])
-    .where.not(transactions: {result: "success"})
-    .group(:id)
+    Customer.find_by_sql ["SELECT customers.* FROM merchants
+      JOIN invoices ON merchants.id = invoices.merchant_id
+      JOIN customers ON customers.id = invoices.customer_id
+      JOIN transactions ON transactions.invoice_id = invoices.id
+      WHERE merchants.id = #{id}
+      EXCEPT SELECT customers.* FROM merchants
+      JOIN invoices ON merchants.id = invoices.merchant_id
+      JOIN customers ON customers.id = invoices.customer_id
+      JOIN transactions ON transactions.invoice_id = invoices.id
+      WHERE merchants.id = #{id} AND transactions.result = 'success';"];
   end
 end
