@@ -1,19 +1,19 @@
 require 'rails_helper'
 
 describe 'Items Intelligence' do
-  xit 'can find the most revenue for a certain quantity' do
-    item_1 = create(:item)
-    item_2 = create(:item_2)
-    x = 1
+  it 'can find the most revenue for a certain quantity' do
+    merchant     = create(:merchant)
+    item         = create(:item)
+    invoice      = create(:invoice, merchant: merchant) 
+    transaction  = create(:transaction, invoice: invoice)
+    invoice_item = create(:invoice_item, item: item, invoice: invoice)
 
-    get "/api/v1/items/most_revenue?quantity=#{x}"
+    get "/api/v1/items/most_revenue?quantity=#{item.id}"
 
     expect(response).to be_success
 
-    searched_item = JSON.parse(response.body)
+    searched_item = JSON.parse(response.body).first
 
-    expect(searched_item["name"]).to eq(item_2.name)
-    expect(searched_item["description"]).to eq(item_2.description)
-    expect(searched_item["unit_price"]).to eq(item_2.unit_price)
+    expect(searched_item["id"]).to eq(item.id)
   end
 end

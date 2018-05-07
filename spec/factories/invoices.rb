@@ -6,6 +6,7 @@ FactoryBot.define do
     created_at "2018-04-30 23:12:53"
     updated_at "2018-04-30 23:12:54"
   end
+
   factory :invoice_2 do
     customer
     merchant
