@@ -11,17 +11,14 @@ RSpec.describe Merchant, type: :model do
     end
   end
 
-  describe 'class methods' do
-    it '.random' do
-      m1 = Merchant.create(name: 'Barnabus')
-      m2 = Merchant.create(name: 'Jiccus')
-      m3 = Merchant.create(name: 'Lerry')
-
-      expect(Merchant.random.first).to be_in([m1, m2, m3])
-    end
-  end
-  
   describe 'relationships' do
     it { should have_many(:items) }
+    it { should have_many(:invoices) }
+    it { should have_many(:customers) }
+    it { should have_many(:invoice_items) }
+    it { should have_many(:transactions) }
+  end
+
+  describe 'class methods' do
   end
 end
