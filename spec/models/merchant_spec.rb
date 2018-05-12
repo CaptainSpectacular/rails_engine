@@ -19,6 +19,18 @@ RSpec.describe Merchant, type: :model do
     it { should have_many(:transactions) }
   end
 
-  describe 'class methods' do
+  describe 'instance methods' do
+    it '#favorite_customer' do
+      merchant = create(:merchant)
+      c1, c2 = create_list(:customer, 2)
+      c1_invoice  = create(:invoice, merchant: merchant, customer: c1)
+      c2_invoice1 = create(:invoice, merchant: merchant, customer: c2) 
+      c2_invoice2 = create(:invoice, merchant: merchant, customer: c2) 
+      create(:transaction, invoice: c1_invoice)
+      create(:transaction, invoice: c2_invoice1)
+      create(:transaction, invoice: c2_invoice2)
+
+      expect(merchant.favorite_customer).to eq(c2)
+      end
   end
 end
