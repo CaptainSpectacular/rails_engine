@@ -20,7 +20,7 @@ class Merchant < ApplicationRecord
     .first
   end
 
-  def self.most_revenue(number_of_merchants)
+  def self.most_revenue(number_of_merchants = 5)
     joins(invoices: [:invoice_items, :transactions])
     .where(transactions: {result: "success"})
     .group(:id)
