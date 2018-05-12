@@ -32,6 +32,25 @@ RSpec.describe Merchant, type: :model do
 
       expect(merchant.favorite_customer).to eq(c2)
     end
+
+    it '#revenue' do
+      m1, m2    = create_list(:merchant, 2)
+      c1, c2    = create_list(:customer, 2)
+      item1     = create(:item, merchant: m1)
+      item2     = create(:item, merchant: m2)
+      invoice1  = create(:invoice, merchant: m1, customer: c1)
+      invoice2  = create(:invoice, merchant: m2, customer: c2)
+      create(:invoice, merchant: m2, customer: c2) 
+      create(:invoice, merchant: m2, customer: c2) 
+      create(:transaction, invoice: invoice1)
+      create(:transaction, invoice: invoice1)
+      create(:transaction, invoice: invoice2)
+      create(:invoice_item, invoice: invoice1, item: item1)
+      create(:invoice_item, invoice: invoice2, item: item2)
+
+      expect(m1.revenue.to_f).to eq(1359.9)
+      expect(m2.revenue.to_f).to eq(679.95)
+    end
   end
 
   describe 'class methods' do
