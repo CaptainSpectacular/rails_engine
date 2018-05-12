@@ -72,5 +72,27 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.most_revenue).to eq([m1, m2])
       expect(Merchant.most_revenue(1)).to eq([m1])
     end
+
+    it '.most_items' do
+      m1, m2    = create_list(:merchant, 2)
+      c1, c2    = create_list(:customer, 2)
+      item1     = create(:item, merchant: m1)
+      item2     = create(:item, merchant: m2)
+      item3     = create(:item, merchant: m2)
+      invoice1  = create(:invoice, merchant: m1, customer: c1)
+      invoice2  = create(:invoice, merchant: m2, customer: c2)
+      invoice3  = create(:invoice, merchant: m2, customer: c2)
+      create(:invoice, merchant: m2, customer: c2) 
+      create(:invoice, merchant: m2, customer: c2) 
+      create(:transaction, invoice: invoice1)
+      create(:transaction, invoice: invoice2)
+      create(:transaction, invoice: invoice3)
+      create(:invoice_item, invoice: invoice1, item: item1)
+      create(:invoice_item, invoice: invoice2, item: item2)
+      create(:invoice_item, invoice: invoice3, item: item2)
+
+      expect(Merchant.most_items).to eq([m2, m1])
+      expect(Merchant.most_items(1)).to eq([m2])
+    end
   end
 end
