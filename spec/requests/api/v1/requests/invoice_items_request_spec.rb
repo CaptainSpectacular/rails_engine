@@ -11,6 +11,7 @@ describe 'Invoice Item API' do
     expect(response).to be_success
     expect(searched_invoice_items.count).to eq(3)
   end
+
   it 'can find a single a single invoice item' do
     invoice_item = create(:invoice_item)
 
@@ -22,6 +23,7 @@ describe 'Invoice Item API' do
 
     expect(searched_invoice_items["id"]).to eq(invoice_item.id)
   end
+
   it 'can search for a single invoice item from id' do
     invoice_item = create(:invoice_item)
 
@@ -33,6 +35,7 @@ describe 'Invoice Item API' do
 
     expect(searched_invoice_item["id"]).to eq(invoice_item.id)
   end
+
   it 'can search for a single invoice item from quantity' do
     invoice_item = create(:invoice_item)
 
@@ -44,6 +47,7 @@ describe 'Invoice Item API' do
 
     expect(searched_invoice_item["quantity"]).to eq(invoice_item.quantity)
   end
+
   it 'can search for a single invoice item from created at' do
     invoice_item = create(:invoice_item)
 
@@ -67,6 +71,7 @@ describe 'Invoice Item API' do
 
     expect(searched_invoice_item["id"]).to eq(invoice_item.id)
   end
+
   it 'can search for all invoice items from quantity' do
     invoice_items = create_list(:invoice_item, 3)
     quantity = invoice_items[0][:quantity]

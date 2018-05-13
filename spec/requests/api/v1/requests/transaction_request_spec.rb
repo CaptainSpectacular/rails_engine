@@ -18,6 +18,14 @@ describe 'endpoints' do
     expect(JSON.parse(response.body)['id']).to eq(transaction.id)
   end
 
+  it 'has random' do
+    t1, t2 = create_list(:transaction, 2)
+    get '/api/v1/transactions/random'
+
+    expect(response).to be_success
+    expect(JSON.parse(response.body).first['id']).to be_in([t1.id, t2.id])
+  end
+
   it 'can find by id' do
     t1 = create(:transaction)
     get "/api/v1/transactions/find?id=#{t1.id}"
