@@ -3,8 +3,4 @@ class Transaction < ApplicationRecord
                         :credit_card_number,
                         :result
   belongs_to :invoice
- 
-   def self.random
-    order('random()').limit(1)
-  end
 end

@@ -3,10 +3,6 @@ class Customer < ApplicationRecord
   has_many :transactions, through: :invoices
   has_many :merchants, through: :invoices
 
-  def self.random
-    order('random()').limit(1)
-  end
-
   def favorite_merchant
     merchants.joins(:invoices, :transactions)
              .where(transactions: {result: 'success'})
