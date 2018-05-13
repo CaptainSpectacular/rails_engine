@@ -26,6 +26,15 @@ describe 'endpoints' do
     expect(JSON.parse(response.body)['id']).to eq(merchant.id)
   end
 
+  it 'has find_all' do
+    create(:merchant, name: 'Dunkey')
+    create(:merchant, name: 'Dunkey')
+    create(:merchant, name: 'dunkey')
+    get '/api/v1/merchants/find_all?name=Dunkey'
+
+    expect(response).to be_success
+    expect(JSON.parse(response.body).size).to eq(2)
+  end
   it 'has random' do
     m1, m2 = create_list(:merchant, 2)
     get '/api/v1/merchants/random'
@@ -57,5 +66,12 @@ describe 'endpoints' do
     
     expect(response).to be_success
     expect(searched_items.count).to eq(2)
+  end
+
+  it 'most_items' do
+    get '/api/v1/merchants/most_items'
+
+    expect(response).to be_success
+    # TODO write a better test
   end
 end

@@ -4,7 +4,7 @@ class Item < ApplicationRecord
   has_many :invoices, through: :invoice_items
   has_many :transactions, through: :invoices
 
-  def self.most_revenue(number_of_entries)
+  def self.most_revenue(number_of_entries = 5)
     select("items.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .joins(:invoice_items, :invoices, :transactions)
     .where(transactions: {result: "success"})

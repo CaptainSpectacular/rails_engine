@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Transaction, type: :model do
+  describe 'relationships' do
+    it {is_expected.to belong_to(:invoice)}
+  end
+
   describe 'validations' do
     it 'has an invoice_id' do
       invalid = Transaction.create(credit_card_number: 1122821, result: 'success')
