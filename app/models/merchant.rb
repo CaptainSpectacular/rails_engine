@@ -10,7 +10,7 @@ class Merchant < ApplicationRecord
     customers
     .select("customers.*, count(transactions.id) AS transaction_count")
     .joins(:invoices, :transactions)
-    .where(transactions: {result: "success"})
+    .merge(Transaction.success)
     .group(:id)
     .order("transaction_count DESC")
     .first
@@ -18,7 +18,7 @@ class Merchant < ApplicationRecord
 
   def self.most_revenue(number_of_merchants = 5)
     joins(invoices: [:invoice_items, :transactions])
-    .where(transactions: {result: "success"})
+    .merge(Transaction.success)
     .group(:id)
     .order("sum(invoice_items.quantity * invoice_items.unit_price) DESC")
     .limit(number_of_merchants)
@@ -27,12 +27,12 @@ class Merchant < ApplicationRecord
   def revenue(date=nil)
     if date
        invoices.joins(:invoice_items, :transactions)
-                .where(transactions: {result: 'success'})
+                .merge(Transaction.success)
                 .where('DATE(invoices.created_at) = ?', [date])
                 .sum('invoice_items.unit_price * invoice_items.quantity')
     else
       invoices.joins(:invoice_items, :transactions)
-              .where(transactions: {result: 'success'})
+              .merge(Transaction.success)
               .sum('invoice_items.unit_price * invoice_items.quantity')
     end
   end
@@ -40,7 +40,7 @@ class Merchant < ApplicationRecord
   def self.most_items(limit = 5)
     select('merchants.*, SUM(invoice_items.quantity) AS business')
       .joins(invoices: [:invoice_items, :transactions])
-      .where(transactions: {result: 'success'})
+      .merge(Transaction.success)
       .group('merchants.id')
       .order('business DESC')
       .limit(limit)
@@ -48,7 +48,7 @@ class Merchant < ApplicationRecord
 
   def self.total_revenue_for_date(date)
     joins(invoices: [:invoice_items, :transactions])
-    .where(transactions: {result: "success"})
+    .merge(Transaction.success)
     .where("DATE(invoices.created_at) = ?", date)
     .sum("invoice_items.quantity * invoice_items.unit_price")
   end

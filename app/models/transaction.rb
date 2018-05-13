@@ -3,4 +3,5 @@ class Transaction < ApplicationRecord
                         :credit_card_number,
                         :result
   belongs_to :invoice
+  scope :success, ->{ where(result: 'success') }
 end
