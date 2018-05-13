@@ -10,6 +10,7 @@ describe 'Item API' do
     expect(response).to be_success
     expect(items.count).to eq(3)
   end
+
   it 'can send a single item' do
     item = create(:item)
     id = item.id
@@ -21,6 +22,7 @@ describe 'Item API' do
     expect(response).to be_success
     expect(searched_item["id"]).to eq(id)
   end
+
   it 'can find by an id' do
     item = create(:item)
     id = item.id
@@ -32,6 +34,7 @@ describe 'Item API' do
     expect(response).to be_success
     expect(searched_item["id"]).to eq(id)
   end
+
   it 'can find by a name' do
     item = create(:item)
     name = item.name
@@ -43,6 +46,7 @@ describe 'Item API' do
     expect(response).to be_success
     expect(searched_item["name"]).to eq(name)
   end
+
   it 'can find by description' do
     item = create(:item)
     description = item.description
@@ -54,6 +58,7 @@ describe 'Item API' do
     expect(response).to be_success
     expect(searched_item["description"]).to eq(description)
   end
+  
   it 'can find all by name' do
     list = create_list(:item, 3)
     name = list[0][:name]
@@ -66,6 +71,7 @@ describe 'Item API' do
     expect(searched_items.count).to eq(3)
     expect(searched_items[0]["name"]).to eq(name)
   end
+  
   it 'can find all by description' do
     list = create_list(:item, 3)
     description = list[0][:description]
@@ -78,6 +84,7 @@ describe 'Item API' do
     expect(searched_items.count).to eq(3)
     expect(searched_items[0]["description"]).to eq(description)
   end
+
   it 'can find an item by random' do
     list = create_list(:item, 3)
 
