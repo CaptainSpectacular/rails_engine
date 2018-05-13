@@ -94,5 +94,24 @@ RSpec.describe Merchant, type: :model do
       expect(Merchant.most_items).to eq([m2, m1])
       expect(Merchant.most_items(1)).to eq([m2])
     end
+    
+    it '.total_revenue_for_date' do
+      m1, m2    = create_list(:merchant, 2)
+      c1, c2    = create_list(:customer, 2)
+      item1     = create(:item, merchant: m1)
+      item2     = create(:item, merchant: m2)
+      invoice1  = create(:invoice, merchant: m1, customer: c1)
+      invoice2  = create(:invoice, merchant: m2, customer: c2)
+      create(:invoice, merchant: m2, customer: c2) 
+      create(:invoice, merchant: m2, customer: c2) 
+      create(:transaction, invoice: invoice1)
+      create(:transaction, invoice: invoice1)
+      create(:transaction, invoice: invoice2)
+      create(:invoice_item, invoice: invoice1, item: item1)
+      create(:invoice_item, invoice: invoice2, item: item2)
+
+      expect(Merchant.total_revenue_for_date('2018-04-30')).to eq(2039.85)
+      expect(Merchant.total_revenue_for_date(Date.today)).to eq(0)
+    end
   end
 end
