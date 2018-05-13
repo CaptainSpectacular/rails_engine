@@ -6,10 +6,6 @@ class Merchant < ApplicationRecord
   has_many :invoice_items, through: :invoices
   has_many :transactions, through: :invoices
 
-  def self.random
-    order('random()').limit(1)
-  end
-
   def favorite_customer
     customers
     .select("customers.*, count(transactions.id) AS transaction_count")
